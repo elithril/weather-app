@@ -120,11 +120,11 @@ const classes = {
       height: '5px',
     },
     '&::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(26, 115, 232, 0.6)',
+      backgroundColor: 'rgba(26, 115, 232, 0.8)',
       borderRadius: '3px',
     },
     '&::-webkit-scrollbar-track': {
-      backgroundColor: 'rgb(181 154 79 / 58%)',
+      backgroundColor: 'rgb(26 115 232 / 30%)',
       bordeRadius: '10px',
     },
   },

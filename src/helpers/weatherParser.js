@@ -28,3 +28,7 @@ export const weatherCode = {
     96: "Orageux avec légère grêle",
     99: "Orageux avec forte grêle",
 }
+
+// ajouter les favoris + remove favoris + reselect favoris refresh la vue
+// gestion d'erreurs avec toasts
+// ajouter les cards pour les daily

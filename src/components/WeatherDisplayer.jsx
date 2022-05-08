@@ -1,4 +1,4 @@
-import { Box, Card, CircularProgress, Typography } from '@mui/material';
+import { Box, Card, CircularProgress, IconButton, Typography } from '@mui/material';
 import React, {useState, useEffect} from 'react';
 import Geocode from "react-geocode";
 import {getWeather} from '../services/getWeather';
@@ -8,6 +8,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { weatherCode } from '../helpers/weatherParser';
 import AirIcon from '@mui/icons-material/Air';
 import RainIcon from '../assets/rainIcon.svg';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const classes = {
   root: {
@@ -46,11 +47,32 @@ const classes = {
   },
   rightPartContainer: {
     width: '40%',
-    padding: '1rem 0 0 0'
+    padding: '1rem 0 0 0',
+    position: 'relative',
+  },
+  cityNameContainer: {
+    display: 'flex'
   },
   cityName: {
     margin: '2rem 0 0 0',
-    textAlign: 'left'
+    textAlign: 'left',
+    width: '75%',
+  },
+  favoriteButtonContainer: {
+    width: '25%',
+    display: 'flex',
+    position: 'relative',
+  },
+  likeIconButton: {
+    width: '45px',
+    height: '45px',
+    position: 'absolute',
+    bottom: '0',
+    right: 0,
+  },
+  likeButton: {
+    width: '35px',
+    height: '35px',
   },
   weatherText: {
     position: 'relative',
@@ -77,9 +99,18 @@ const classes = {
     backgroundColor: 'rgba(26, 115, 232, 0.5)',
     minHeight: '100px'
   },
-  iconAndTextContainer: {
+  iconAndTextWindContainer: {
     display: 'flex',
-    marginBottom: '1rem'
+    marginBottom: '1rem',
+    position: 'absolute',
+    right: '0.5rem'
+  },
+  iconAndTextRainContainer: {
+    display: 'flex',
+    marginBottom: '1rem',
+    position: 'absolute',
+    top: '4rem',
+    right: 'calc(0.5rem)'
   },
   specialIconSize: {
     width: '30px',
@@ -172,9 +203,19 @@ const WeatherDisplayer = (props) => {
         </Box>
       :
         <>
-        <Typography variant="h4" sx={classes.cityName}>
-          {currentCity.cityName}
-        </Typography>
+        <Box sx={classes.cityNameContainer}>
+          <Typography variant="h4" sx={classes.cityName}>
+            {currentCity.cityName}
+          </Typography>
+          <Box sx={classes.favoriteButtonContainer}>
+            <IconButton
+              sx={classes.likeIconButton}
+              onClick={() => console.log("add to favorite")}
+            >
+              <FavoriteBorderIcon sx={classes.likeButton}/>
+            </IconButton>
+          </Box>
+        </Box>
       <Box sx={classes.currentWeatherContainer}>
         <Box sx={classes.leftPartContainer}>
           <Typography variant="h1">
@@ -195,13 +236,13 @@ const WeatherDisplayer = (props) => {
           </Box>
         </Box>
         <Box sx={classes.rightPartContainer}>
-          <Box sx={classes.iconAndTextContainer}>
+          <Box sx={classes.iconAndTextWindContainer}>
             <AirIcon sx={classes.specialIconSize} />
             <Typography variant="body1" sx={classes.textAlignment}>
               {weatherData?.current_weather?.windspeed} Km/h
             </Typography>
           </Box>
-          <Box sx={classes.iconAndTextContainer}>
+          <Box sx={classes.iconAndTextRainContainer}>
             <img src={RainIcon} id="custom-icon-size" />
             <Typography variant="body1" sx={classes.textAlignment}>
               {weatherData?.daily?.precipitation_sum[0]} mm

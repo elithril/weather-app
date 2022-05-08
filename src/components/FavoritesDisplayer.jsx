@@ -47,7 +47,7 @@ const classes = {
 }
 
 const FavoritesDisplayer = (props) => {
-  const { onClose, value: valueProp, open, ...other } = props;
+  const { onClose, open } = props;
   const [favorites, setFavorites] = useState(null);
 
   useEffect(() => {

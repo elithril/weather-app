@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -46,7 +46,7 @@ export default function CityFinder(props) {
           props.setCurrentCity({
             ...props.currentCity,
             pos: [lat, lng],
-            cityName: v.name,
+            cityName: v.name.split(',')[0],
             timezone: newTimezone,
           })
         },

@@ -170,8 +170,8 @@ const WeatherDisplayer = (props) => {
   const [openFavorite, setOpenFavorite] = useState(false);
 
   useEffect(() => {
+    setIsFetchingWeather(true);
     if (currentCity.cityName.length > 0 && currentCity.pos.length === 2) {
-      setIsFetchingWeather(true);
       setIsFavorite(isCityInFavorite(currentCity.cityName))
       getWeather(currentCity)
         .then(res => {
@@ -227,11 +227,13 @@ const WeatherDisplayer = (props) => {
         keepMounted
         setCurrentCity={setCurrentCity}
         handleManageCityInFavorite={handleManageCityInFavorite}
+        setIsFetchingWeather={setIsFetchingWeather}
       />
       <Box sx={classes.topBarContainer}>
         <CityFinder
           currentCity={currentCity}
           setCurrentCity={setCurrentCity}
+          setIsFetchingWeather={setIsFetchingWeather}
         />
         <Button
           variant="contained"

@@ -42,6 +42,7 @@ export default function CityFinder(props) {
         (response) => {
           const { lat, lng } = response.results[0].geometry.location;
           const newTimezone = tzlookup(lat, lng);
+          props.setIsFetchingWeather(true);
           props.setCurrentCity({
             ...props.currentCity,
             pos: [lat, lng],

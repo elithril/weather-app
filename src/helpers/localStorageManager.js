@@ -6,7 +6,7 @@ export const setItemInLocalStorage = (data) => {
 
 export const getItemFromLocalStorage = (key) => {
   const tmp = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-  return tmp[key];
+  return tmp?.hasOwnProperty(key) ? tmp[key] : null;
 }
 
 export const modifyFavoriteInLocalStorage = (city) => {

@@ -11,6 +11,20 @@ import {
 import ClearIcon from '@mui/icons-material/Clear';
 
 const classes = {
+  dialogTopBar: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  dialogTitle: {
+    fontSize: '20px',
+    transform: 'translateY(5px)'
+  },
+  textSpacing: {
+    margin: '1rem 0',
+  },
+  noFavoriteContainer: {
+    textAlign: 'center'
+  },
   favoriteContainer: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -26,6 +40,9 @@ const classes = {
   },
   removeFavoriteButton: {
     width: '50px'
+  },
+  closeModalButton: {
+    marginRight: '0.4rem',
   }
 }
 
@@ -51,6 +68,8 @@ const FavoritesDisplayer = (props) => {
   }
 
   const handleSwitchCurrentCity = (fav) => {
+    // call loader before changing data to avoid blink
+    props.setIsFetchingWeather(true)
     props.setCurrentCity(fav);
     onClose();
   }
@@ -63,9 +82,26 @@ const FavoritesDisplayer = (props) => {
       keepMounted
       onClose={onClose}
     >
-      <DialogTitle>Mes Favoris</DialogTitle>
+      <DialogTitle sx={classes.dialogTopBar}>
+        <Typography sx={classes.dialogTitle}>
+          Mes Favoris
+        </Typography>
+        <IconButton
+          sx={classes.closeModalButton}
+          onClick={onClose}
+        >
+          <ClearIcon />
+        </IconButton>
+      </DialogTitle>
       <DialogContent dividers>
-        {favorites?.map((fav, index) => (
+        {favorites?.length === 0 ?
+          <Box sx={classes.noFavoriteContainer}>
+            <Typography variant="body1" sx={classes.textSpacing}>
+              Vous n'avez pas encore ajouté de favoris !
+            </Typography>
+          </Box>
+        :
+          favorites?.map((fav, index) => (
           <Box
             sx={classes.favoriteContainer}
             key={`favorite-container-${index + 1}`}

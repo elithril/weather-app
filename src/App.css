@@ -44,3 +44,8 @@
   min-width: 100%;
   min-height: 56.25vw;
 }
+
+#custom-icon-size {
+  width: 30px;
+  height: 30px;
+}

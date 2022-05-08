@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {getItemFromLocalStorage} from '../helpers/localStorageManager';
 import GeolocAuthorization from '../components/GeolocAuthorization';
-import sample from '../assets/movingClouds.mp4';
+import cloudy from '../assets/movingClouds.mp4';
 import { Box, Fade } from '@mui/material';
 import WeatherDisplayer from '../components/WeatherDisplayer';
 
@@ -49,7 +49,7 @@ const HomePage = () => {
         sx={classes.root}
       > */}
         <video className='videoTag' autoPlay loop muted id="background-video">
-          <source src={sample} type='video/mp4' />
+          <source src={cloudy} type='video/mp4' />
         </video>
         <Fade in={!geolocAuthorization ? true : false} timeout={750}>
           <div style={{

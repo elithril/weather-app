@@ -1,13 +1,19 @@
-import { Card } from '@mui/material';
+import { Box, Card, CircularProgress, Typography } from '@mui/material';
 import React, {useState, useEffect} from 'react';
 import Geocode from "react-geocode";
 import {getWeather} from '../services/getWeather';
 import CityFinder from './CityFinder';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { weatherCode } from '../helpers/weatherParser';
+import AirIcon from '@mui/icons-material/Air';
+import RainIcon from '../assets/rainIcon.svg';
 
 const classes = {
   root: {
     width: '650px',
-    height: '70vh',
+    minHeight: '30vh',
+    // height: '70vh',
     position: 'absolute',
     zIndex: 90,
     top: '15%',
@@ -15,6 +21,73 @@ const classes = {
     transform: 'translateX(-50%)',
     padding: '2rem',
     borderRadius: '20px'
+  },
+  topBarContainer: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  fetchingContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%)',
+  },
+  loader: {
+    marginBottom: '1rem'
+  },
+  currentWeatherContainer: {
+    marginTop: '1rem',
+    width: '100%',
+    textAlign: 'left',
+    display: 'flex'
+  },
+  leftPartContainer: {
+    width: '60%',
+  },
+  rightPartContainer: {
+    width: '40%',
+    padding: '1rem 0 0 0'
+  },
+  cityName: {
+    margin: '2rem 0 0 0',
+    textAlign: 'left'
+  },
+  weatherText: {
+    position: 'relative',
+    top: '-12px',
+    left: '0px',
+  },
+  temperatureMax: {
+    marginRight: '1rem',
+  },
+  temperatureMin: {
+    marginRight: '0.5rem',
+  },
+  maxMinTemperatureContainer: {
+    display: 'flex',
+    position: 'relative',
+    top: '-10px',
+    left: '0px',
+  },
+  arrowTransform: {
+    transform: 'translateY(5px)'
+  },
+  dailyContainer: {
+    marginTop: '1rem',
+    backgroundColor: 'rgba(26, 115, 232, 0.5)',
+    minHeight: '100px'
+  },
+  iconAndTextContainer: {
+    display: 'flex',
+    marginBottom: '1rem'
+  },
+  specialIconSize: {
+    width: '30px',
+    height: '30px'
+  },
+  textAlignment: {
+    marginLeft: '0.5rem',
+    transform: 'translateY(5px)'
   }
 }
 
@@ -83,219 +156,66 @@ const WeatherDisplayer = (props) => {
 
   return (
     <Card sx={classes.root}>
-      <CityFinder
-        currentCity={currentCity}
-        setCurrentCity={setCurrentCity}
-      />
-      {currentCity.cityName}
+      <Box sx={classes.topBarContainer}>
+        <CityFinder
+          currentCity={currentCity}
+          setCurrentCity={setCurrentCity}
+        />
+        les favoris
+      </Box>
+      {isFetchingWeather ?
+        <Box sx={classes.fetchingContainer}>
+          <CircularProgress size={50} sx={classes.loader} />
+          <Typography variant="body1">
+            Récupération des données en cours...
+          </Typography>
+        </Box>
+      :
+        <>
+        <Typography variant="h4" sx={classes.cityName}>
+          {currentCity.cityName}
+        </Typography>
+      <Box sx={classes.currentWeatherContainer}>
+        <Box sx={classes.leftPartContainer}>
+          <Typography variant="h1">
+            {Math.round(weatherData?.current_weather?.temperature)}°
+          </Typography>
+          <Typography variant="h4" sx={classes.weatherText}>
+            {weatherCode[weatherData?.current_weather?.weathercode]}
+          </Typography>
+          <Box sx={classes.maxMinTemperatureContainer}>
+            <Typography variant="h6" sx={classes.temperatureMax}>
+              <ArrowUpwardIcon sx={classes.arrowTransform} />
+              {Math.round(weatherData?.daily?.temperature_2m_max[0])}°C
+            </Typography>
+            <Typography variant="h6" sx={classes.temperatureMin}>
+              <ArrowDownwardIcon sx={classes.arrowTransform} />
+              {Math.round(weatherData?.daily?.temperature_2m_min[0])}°C
+            </Typography>
+          </Box>
+        </Box>
+        <Box sx={classes.rightPartContainer}>
+          <Box sx={classes.iconAndTextContainer}>
+            <AirIcon sx={classes.specialIconSize} />
+            <Typography variant="body1" sx={classes.textAlignment}>
+              {weatherData?.current_weather?.windspeed} Km/h
+            </Typography>
+          </Box>
+          <Box sx={classes.iconAndTextContainer}>
+            <img src={RainIcon} id="custom-icon-size" />
+            <Typography variant="body1" sx={classes.textAlignment}>
+              {weatherData?.daily?.precipitation_sum[0]} mm
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+      <Card sx={classes.dailyContainer}>
+        test daily
+      </Card>
+        </>
+      }
     </Card>
   )
 }
 
 export default WeatherDisplayer;
-
-
-// const mockData = {
-//   "plus_code" : {
-//      "compound_code" : "JF9C+9VV Toulouse, France",
-//      "global_code" : "8FM3JF9C+9VV"
-//   },
-//   "results" : [
-//      {
-//         "address_components" : [
-//            {
-//               "long_name" : "8",
-//               "short_name" : "8",
-//               "types" : [ "street_number" ]
-//            },
-//            {
-//               "long_name" : "Rue Arthur Legoust",
-//               "short_name" : "Rue Arthur Legoust",
-//               "types" : [ "route" ]
-//            },
-//            {
-//               "long_name" : "Toulouse",
-//               "short_name" : "Toulouse",
-//               "types" : [ "locality", "political" ]
-//            },
-//            {
-//               "long_name" : "Haute-Garonne",
-//               "short_name" : "Haute-Garonne",
-//               "types" : [ "administrative_area_level_2", "political" ]
-//            },
-//            {
-//               "long_name" : "Occitanie",
-//               "short_name" : "Occitanie",
-//               "types" : [ "administrative_area_level_1", "political" ]
-//            },
-//            {
-//               "long_name" : "France",
-//               "short_name" : "FR",
-//               "types" : [ "country", "political" ]
-//            },
-//            {
-//               "long_name" : "31500",
-//               "short_name" : "31500",
-//               "types" : [ "postal_code" ]
-//            }
-//         ],
-//         "formatted_address" : "8 Rue Arthur Legoust, 31500 Toulouse, France",
-//         "geometry" : {
-//            "bounds" : {
-//               "northeast" : {
-//                  "lat" : 43.6185009,
-//                  "lng" : 1.472236
-//               },
-//               "southwest" : {
-//                  "lat" : 43.6183848,
-//                  "lng" : 1.4720752
-//               }
-//            },
-//            "location" : {
-//               "lat" : 43.6184307,
-//               "lng" : 1.472154
-//            },
-//            "location_type" : "ROOFTOP",
-//            "viewport" : {
-//               "northeast" : {
-//                  "lat" : 43.6197918302915,
-//                  "lng" : 1.473504580291502
-//               },
-//               "southwest" : {
-//                  "lat" : 43.6170938697085,
-//                  "lng" : 1.470806619708498
-//               }
-//            }
-//         },
-//         "place_id" : "ChIJW84IVsW8rhIRfopeyuoJefM",
-//         "types" : [ "premise" ]
-//      },
-//      {
-//         "address_components" : [
-//            {
-//               "long_name" : "29",
-//               "short_name" : "29",
-//               "types" : [ "street_number" ]
-//            },
-//            {
-//               "long_name" : "Chemin des Argoulets",
-//               "short_name" : "Chem. des Argoulets",
-//               "types" : [ "route" ]
-//            },
-//            {
-//               "long_name" : "Toulouse",
-//               "short_name" : "Toulouse",
-//               "types" : [ "locality", "political" ]
-//            },
-//            {
-//               "long_name" : "Haute-Garonne",
-//               "short_name" : "Haute-Garonne",
-//               "types" : [ "administrative_area_level_2", "political" ]
-//            },
-//            {
-//               "long_name" : "Occitanie",
-//               "short_name" : "Occitanie",
-//               "types" : [ "administrative_area_level_1", "political" ]
-//            },
-//            {
-//               "long_name" : "France",
-//               "short_name" : "FR",
-//               "types" : [ "country", "political" ]
-//            },
-//            {
-//               "long_name" : "31500",
-//               "short_name" : "31500",
-//               "types" : [ "postal_code" ]
-//            }
-//         ],
-//         "formatted_address" : "29 Chem. des Argoulets, 31500 Toulouse, France",
-//         "geometry" : {
-//            "location" : {
-//               "lat" : 43.6182841,
-//               "lng" : 1.4726168
-//            },
-//            "location_type" : "ROOFTOP",
-//            "viewport" : {
-//               "northeast" : {
-//                  "lat" : 43.61963308029149,
-//                  "lng" : 1.473965780291502
-//               },
-//               "southwest" : {
-//                  "lat" : 43.6169351197085,
-//                  "lng" : 1.471267819708498
-//               }
-//            }
-//         },
-//         "place_id" : "ChIJhQ2lq9q8rhIRFlAPUkdCWx0",
-//         "plus_code" : {
-//            "compound_code" : "JF9F+82 Toulouse, France",
-//            "global_code" : "8FM3JF9F+82"
-//         },
-//         "types" : [ "establishment", "health", "point_of_interest" ]
-//      },
-//      {
-//         "address_components" : [
-//            {
-//               "long_name" : "7",
-//               "short_name" : "7",
-//               "types" : [ "street_number" ]
-//            },
-//            {
-//               "long_name" : "Rue Boileau",
-//               "short_name" : "Rue Boileau",
-//               "types" : [ "route" ]
-//            },
-//            {
-//               "long_name" : "Toulouse",
-//               "short_name" : "Toulouse",
-//               "types" : [ "locality", "political" ]
-//            },
-//            {
-//               "long_name" : "Haute-Garonne",
-//               "short_name" : "Haute-Garonne",
-//               "types" : [ "administrative_area_level_2", "political" ]
-//            },
-//            {
-//               "long_name" : "Occitanie",
-//               "short_name" : "Occitanie",
-//               "types" : [ "administrative_area_level_1", "political" ]
-//            },
-//            {
-//               "long_name" : "France",
-//               "short_name" : "FR",
-//               "types" : [ "country", "political" ]
-//            },
-//            {
-//               "long_name" : "31500",
-//               "short_name" : "31500",
-//               "types" : [ "postal_code" ]
-//            }
-//         ],
-//         "formatted_address" : "7 Rue Boileau, 31500 Toulouse, France",
-//         "geometry" : {
-//            "location" : {
-//               "lat" : 43.6179916,
-//               "lng" : 1.4721155
-//            },
-//            "location_type" : "ROOFTOP",
-//            "viewport" : {
-//               "northeast" : {
-//                  "lat" : 43.6193405802915,
-//                  "lng" : 1.473464480291502
-//               },
-//               "southwest" : {
-//                  "lat" : 43.6166426197085,
-//                  "lng" : 1.470766519708498
-//               }
-//            }
-//         },
-//         "place_id" : "ChIJmyuXUcW8rhIRYs3OOc3hkDk",
-//         "plus_code" : {
-//            "compound_code" : "JF9C+5R Toulouse, France",
-//            "global_code" : "8FM3JF9C+5R"
-//         },
-//         "types" : [ "street_address" ]
-//      }
-//   ],
-//   "status" : "OK"
-// };

@@ -51,6 +51,7 @@ export default function CityFinder(props) {
           })
         },
         (error) => {
+          props.displayToast({message: 'Echec de la récupération des données', status: 'error'})
           console.error(error);
         }
       );

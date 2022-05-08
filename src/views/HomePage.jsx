@@ -2,19 +2,39 @@ import React, {useState, useEffect} from 'react';
 import {getItemFromLocalStorage} from '../helpers/localStorageManager';
 import GeolocAuthorization from '../components/GeolocAuthorization';
 import cloudy from '../assets/movingClouds.mp4';
-import { Box, Fade } from '@mui/material';
+import { Box, Fade, IconButton, Typography } from '@mui/material';
 import WeatherDisplayer from '../components/WeatherDisplayer';
+import Snackbar from '@mui/material/Snackbar';
+import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
 
 const classes = {
   root: {
     position: 'fixed',
     width: '100%',
     height: '100vh',
+  },
+  toastError: {
+    '& > div': {
+      backgroundColor: '#D32F2F',
+    }
+  },
+  toastSuccess: {
+    '& > div': {
+      backgroundColor: '#1976D2',
+    }
+  },
+  toastContentContainer: {
+    display: 'flex'
+  },
+  toastMessage: {
+    margin: '0 0 0 1rem'
   }
 }
 
 const HomePage = () => {
   const [geolocAuthorization, setGeolocAuthorization] = useState(false);
+  const [toastStatus, setToastStatus] = useState(null);
   
   useEffect(() => {
     setGeolocAuthorization(getItemFromLocalStorage('geolocalisationAuthorized'));
@@ -22,6 +42,29 @@ const HomePage = () => {
 
   return (
     <Box sx={classes.root}>
+      <Snackbar
+        open={toastStatus ? true : false}
+        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+        autoHideDuration={3000}
+        onClose={() => setToastStatus(null)}
+        message={
+          <Box sx={classes.toastContentContainer}>
+            <CheckIcon />
+            <Typography variant="body1" sx={classes.toastMessage}>
+              {toastStatus?.message}
+            </Typography>
+          </Box>
+        }
+        action={<IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={() => setToastStatus(null)}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>}
+        sx={toastStatus?.status === 'error' ? classes.toastError : classes.toastSuccess}
+      />
       <video className='videoTag' autoPlay loop muted id="background-video">
         <source src={cloudy} type='video/mp4' />
       </video>
@@ -40,6 +83,7 @@ const HomePage = () => {
         }}>
           <WeatherDisplayer
             geolocAuthorization={geolocAuthorization}
+            setToastStatus={setToastStatus}
           />
         </div>
       </Fade>

@@ -51,10 +51,6 @@ const FavoritesDisplayer = (props) => {
   const [favorites, setFavorites] = useState(null);
 
   useEffect(() => {
-    console.log("favorites =>", favorites)
-  }, [favorites])
-
-  useEffect(() => {
     if (open)
       setFavorites(getAllFavorites())
   }, [open])
@@ -64,6 +60,7 @@ const FavoritesDisplayer = (props) => {
     const index = tmp.findIndex(elem => elem.cityName === fav.cityName);
     tmp.splice(index, 1);
     setFavorites(tmp);
+    props.displayToast({message: "Favoris supprimé !", success: 'success'})
     props.handleManageCityInFavorite(fav);
   }
 
@@ -112,7 +109,10 @@ const FavoritesDisplayer = (props) => {
             </Typography>
             <IconButton
               sx={classes.removeFavoriteButton}
-              onClick={() => handleRemoveFavorite(fav)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemoveFavorite(fav);
+              }}
             >
               <ClearIcon />
             </IconButton>

@@ -15,6 +15,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { isCityInFavorite, modifyFavoriteInLocalStorage } from '../helpers/localStorageManager';
 import FavoritesDisplayer from './FavoritesDisplayer';
 
+
 const classes = {
   root: {
     width: '650px',
@@ -155,7 +156,7 @@ const classes = {
   favoriteButton: {
     height: '35px',
     transform: 'translateY(10px)',
-  }
+  },
 }
 
 const WeatherDisplayer = (props) => {
@@ -179,8 +180,8 @@ const WeatherDisplayer = (props) => {
           setTimeout(() => setIsFetchingWeather(false), 500);
         })
         .catch(err => {
+          props.setToastStatus({message: 'Echec de la récupération des données', status: 'error'})
           setIsFetchingWeather(false);
-          //toast failed to fetch
         })
     }
   }, [currentCity])
@@ -204,6 +205,7 @@ const WeatherDisplayer = (props) => {
                 })
           },
           (error) => {
+            props.setToastStatus({message: 'Echec de la récupération des données', status: 'error'})
             console.error(error);
           }
         );
@@ -215,12 +217,14 @@ const WeatherDisplayer = (props) => {
   }, [props.geolocAuthorization])
 
   const handleManageCityInFavorite = (city) => {
-    modifyFavoriteInLocalStorage(city)
+    const isDelete = modifyFavoriteInLocalStorage(city);
+    props.setToastStatus({message: isDelete ? 'Favoris supprimé !' : 'Favoris ajouté !', status: 'success'})
     setIsFavorite(isCityInFavorite(city.cityName))
   }
 
   return (
     <Card sx={classes.root}>
+      {/* props.setToastStatus({message: 'test', status: 'success'})} */}
       <FavoritesDisplayer
         open={openFavorite}
         onClose={() => setOpenFavorite(false)}
@@ -228,12 +232,14 @@ const WeatherDisplayer = (props) => {
         setCurrentCity={setCurrentCity}
         handleManageCityInFavorite={handleManageCityInFavorite}
         setIsFetchingWeather={setIsFetchingWeather}
+        displayToast={props.setToastStatus}
       />
       <Box sx={classes.topBarContainer}>
         <CityFinder
           currentCity={currentCity}
           setCurrentCity={setCurrentCity}
           setIsFetchingWeather={setIsFetchingWeather}
+          displayToast={props.setToastStatus}
         />
         <Button
           variant="contained"

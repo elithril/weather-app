@@ -10,13 +10,17 @@ export const getItemFromLocalStorage = (key) => {
 }
 
 export const modifyFavoriteInLocalStorage = (city) => {
+  let isDelete = false;
   let tmp = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
   const index = tmp.favorites.findIndex(elem => elem.cityName === city.cityName);
-  if (index < 0)
+  if (index < 0) 
     tmp.favorites.push(city)
-  else
+  else {
     tmp.favorites.splice(index, 1);
+    isDelete = true;
+  }
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(tmp));
+  return isDelete;
 }
 
 export const isCityInFavorite = (cityName) => {

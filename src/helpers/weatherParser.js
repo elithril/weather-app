@@ -85,7 +85,10 @@ export const daysName = {
   6: "Samedi"
 }
 
-// ajouter les favoris + remove favoris + reselect favoris refresh la vue
+// ajouter les favoris + remove favoris + reselect favoris refresh la vue ----- ok
 // gestion d'erreurs avec toasts
-// ajouter les cards pour les daily
+// ajouter les cards pour les daily ---------- ok
 // useMemo / useCallback
+// si geoloc refusé, affiche NaN au début, mettre un message
+// rajouter la date du jour qqpart ----- no need
+// si pas de favoris => message pas de fav + croix pour fermer en haut a droite

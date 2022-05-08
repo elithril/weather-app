@@ -18,7 +18,9 @@ export default function CityFinder(props) {
     if (cityName.length > 0) {
       setIsFetching(true);
       fetchPlace(cityName).then((res) => {
-        const tmp = res.features.map(place => ({name: place.place_name, coordinates: place.geometry.coordinates}))
+        const tmp = res.features.map(place => (
+          {name: place.place_name, coordinates: place.geometry.coordinates}
+        ))
         setOptions(tmp);
         setIsFetching(false);
       });
@@ -56,7 +58,7 @@ export default function CityFinder(props) {
 
   return (
     <Autocomplete
-      id="asynchronous-demo"
+      id="asynchronous-city-finder"
       sx={{ width: 300 }}
       open={open}
       onOpen={() => {
@@ -65,6 +67,8 @@ export default function CityFinder(props) {
       onClose={() => {
         setOpen(false);
       }}
+      noOptionsText={"Pas de résultats"}
+      loadingText={"Récupération..."}
       isOptionEqualToValue={(option, value) => option.name === value.name}
       getOptionLabel={(option) => option.name}
       options={options}

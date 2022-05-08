@@ -17,7 +17,7 @@ const HomePage = () => {
   const [geolocAuthorization, setGeolocAuthorization] = useState(false);
   
   useEffect(() => {
-    setGeolocAuthorization(getItemFromLocalStorage('weather-app'));
+    setGeolocAuthorization(getItemFromLocalStorage('geolocalisationAuthorized'));
   }, [])
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const HomePage = () => {
         </video>
         <Fade in={!geolocAuthorization ? true : false} timeout={750}>
           <div style={{
-            display: geolocAuthorization ? 'none' : 'inherit'
+            display: geolocAuthorization !== null ? 'none' : 'inherit'
           }}>
           <GeolocAuthorization
             setGeolocAuthorization={setGeolocAuthorization}

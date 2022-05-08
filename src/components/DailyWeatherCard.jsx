@@ -20,15 +20,12 @@ const classes = {
     padding: '0 0.5rem',
   },
   arrowTransform: {
-    transform: 'translateY(5px)'
+    transform: 'translateY(5px)',
+    color: '#1976D2',
   },
 }
 
 const DailyWeatherCard = (props) => {
-  console.log("props in =>", props)
-
-
-
   const getDayOfTheWeek = (date) => {
     const tmpDate = new Date(date);
     return tmpDate.getDay();

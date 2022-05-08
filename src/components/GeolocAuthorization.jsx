@@ -43,7 +43,7 @@ const classes = {
 const GeolocAuthorization = (props) => {
 
   const isGeolocAuthorized = (value) => {
-    setItemInLocalStorage('weather-app', {geolocalisationAuthorized: value});
+    setItemInLocalStorage({geolocalisationAuthorized: value, favorites: []});
     props.setGeolocAuthorization(value);
   }
 

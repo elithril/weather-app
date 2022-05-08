@@ -1,5 +1,6 @@
-import { Box, Card, CircularProgress, IconButton, Typography } from '@mui/material';
 import React, {useState, useEffect} from 'react';
+
+import { Box, Card, CircularProgress, IconButton, Typography } from '@mui/material';
 import Geocode from "react-geocode";
 import {getWeather} from '../services/getWeather';
 import CityFinder from './CityFinder';
@@ -9,12 +10,12 @@ import { weatherCode } from '../helpers/weatherParser';
 import AirIcon from '@mui/icons-material/Air';
 import RainIcon from '../assets/rainIcon.svg';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import DailyWeatherCard from './DailyWeatherCard';
 
 const classes = {
   root: {
     width: '650px',
     minHeight: '30vh',
-    // height: '70vh',
     position: 'absolute',
     zIndex: 90,
     top: '15%',
@@ -97,7 +98,21 @@ const classes = {
   dailyContainer: {
     marginTop: '1rem',
     backgroundColor: 'rgba(26, 115, 232, 0.5)',
-    minHeight: '100px'
+    minHeight: '200px',
+    display: 'flex',
+    overflow: 'auto',
+    '&::-webkit-scrollbar': {
+      width: '5px',
+      height: '5px',
+     },
+    '&::-webkit-scrollbar-thumb': {
+    backgroundColor: 'blue',
+    borderRadius: '3px',
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: 'rgb(181 154 79 / 58%)',
+      bordeRadius: '10px',
+    },
   },
   iconAndTextWindContainer: {
     display: 'flex',
@@ -243,7 +258,7 @@ const WeatherDisplayer = (props) => {
             </Typography>
           </Box>
           <Box sx={classes.iconAndTextRainContainer}>
-            <img src={RainIcon} id="custom-icon-size" />
+            <img src={RainIcon} id="custom-icon-size" alt="weather rain icon"/>
             <Typography variant="body1" sx={classes.textAlignment}>
               {weatherData?.daily?.precipitation_sum[0]} mm
             </Typography>
@@ -251,7 +266,16 @@ const WeatherDisplayer = (props) => {
         </Box>
       </Box>
       <Card sx={classes.dailyContainer}>
-        test daily
+        {weatherData && weatherData?.daily?.time?.map((date, index) => (
+          <DailyWeatherCard
+            key={`weather-card-${index + 1}`}
+            index={index}
+            date={date}
+            weatherCode={weatherData?.daily?.weathercode ? weatherData?.daily?.weathercode[index] : null}
+            tempMax={weatherData?.daily?.temperature_2m_max[index] ? weatherData?.daily?.temperature_2m_max[index] : null}
+            tempMin={weatherData?.daily?.temperature_2m_min[index] ? weatherData?.daily?.temperature_2m_min[index] : null}
+          />
+        ))}
       </Card>
         </>
       }

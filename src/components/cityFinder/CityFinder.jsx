@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
-import {useDebounce} from '../helpers/useDebounce';
-import {fetchPlace} from '../services/fetchPlace';
+import {useDebounce} from '../../helpers/useDebounce';
+import {fetchPlace} from '../../services/fetchPlace';
 import tzlookup from 'tz-lookup';
 import Geocode from "react-geocode";
 

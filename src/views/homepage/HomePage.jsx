@@ -1,36 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {getItemFromLocalStorage} from '../helpers/localStorageManager';
-import GeolocAuthorization from '../components/GeolocAuthorization';
-import cloudy from '../assets/movingClouds.mp4';
+import {getItemFromLocalStorage} from '../../helpers/localStorageManager';
+import GeolocAuthorization from '../../components/geolocAuthorization/GeolocAuthorization';
+import cloudy from '../../assets/movingClouds.mp4';
 import { Box, Fade, IconButton, Typography } from '@mui/material';
-import WeatherDisplayer from '../components/WeatherDisplayer';
+import WeatherDisplayer from '../../components/weatherDisplayer/WeatherDisplayer';
 import Snackbar from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-
-const classes = {
-  root: {
-    position: 'fixed',
-    width: '100%',
-    height: '100vh',
-  },
-  toastError: {
-    '& > div': {
-      backgroundColor: '#D32F2F',
-    }
-  },
-  toastSuccess: {
-    '& > div': {
-      backgroundColor: '#1976D2',
-    }
-  },
-  toastContentContainer: {
-    display: 'flex'
-  },
-  toastMessage: {
-    margin: '0 0 0 1rem'
-  }
-}
+import {classes} from './homepageClassnames';
 
 const HomePage = () => {
   const [geolocAuthorization, setGeolocAuthorization] = useState(false);

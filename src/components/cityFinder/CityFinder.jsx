@@ -17,13 +17,15 @@ export default function CityFinder(props) {
   React.useMemo(() => {
     if (cityName.length > 0) {
       setIsFetching(true);
-      fetchPlace(cityName).then((res) => {
+      fetchPlace(cityName)
+      .then((res) => {
         const tmp = res.features.map(place => (
           {name: place.place_name, coordinates: place.geometry.coordinates}
         ))
         setOptions(tmp);
         setIsFetching(false);
-      });
+      })
+      .catch(err => props.displayToast({message: 'Echec de la récupération des données', status: 'error'}))
     }
   }, [debouncedSearch]);
 

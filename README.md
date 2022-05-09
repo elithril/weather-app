@@ -16,7 +16,6 @@ If you decide to not let the application access to it, you can still proceed but
 - You can manage your favorites
 - Click on a favorite get the weather prevision of your favorite city
 - Favorites are persistants when you reload the application
-
 ## Contact
 
 For any questions or further informations, please feel free to contact me [Dolphens Nicolas](mailto:nicolas.dolphens@gmail.com)

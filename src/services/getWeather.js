@@ -7,6 +7,6 @@ export const getWeather = async (currentCity) => {
     if (!res.ok) throw new Error(res.statusText);
     return res.json();
   } catch (err) {
-    return { error: "Unable to retrieve places" };
+    return Promise.reject(err)
   }
 };

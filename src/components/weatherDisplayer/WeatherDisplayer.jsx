@@ -77,7 +77,7 @@ const WeatherDisplayer = (props) => {
   const handleManageCityInFavorite = (city) => {
     const isDelete = modifyFavoriteInLocalStorage(city);
     props.setToastStatus({message: isDelete ? 'Favoris supprimé !' : 'Favoris ajouté !', status: 'success'})
-    setIsFavorite(isCityInFavorite(city.cityName))
+    setIsFavorite(isCityInFavorite(currentCity.cityName))
   }
 
   return (

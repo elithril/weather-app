@@ -38,6 +38,7 @@ const WeatherDisplayer = (props) => {
         })
         .catch(err => {
           props.setToastStatus({message: 'Echec de la récupération des données', status: 'error'})
+          setCurrentCity({...currentCity, cityName: '', error: 'Echec de la récupération des données'})
           setIsFetchingWeather(false);
         })
     }
@@ -63,7 +64,7 @@ const WeatherDisplayer = (props) => {
           },
           (error) => {
             props.setToastStatus({message: 'Echec de la récupération des données', status: 'error'})
-            console.error(error);
+            setCurrentCity({...currentCity, cityName: '', error: 'Echec de la récupération des données'})
           }
         );
       })
@@ -105,14 +106,21 @@ const WeatherDisplayer = (props) => {
           Mes favoris
         </Button>
       </Box>
-      {!props.geolocAuthorization && currentCity.cityName.length === 0 ?
+      {currentCity.hasOwnProperty('error') ?
+        <Box sx={classes.fetchingContainer}>
+          <Typography variant="body1">
+            Il y a eu une erreur lors de la récupération des données.
+            Merci de vérifier votre connexion internet et de réessayer.
+          </Typography>
+        </Box>
+        
+      : !props.geolocAuthorization && currentCity.cityName.length === 0 ?
         <Box sx={classes.fetchingContainer}>
           <Typography variant="body1">
             Entrer un nom de ville pour rechercher la météo correspondante
           </Typography>
         </Box>
-      :
-        isFetchingWeather ?
+      : isFetchingWeather ?
         <Box sx={classes.fetchingContainer}>
           <CircularProgress size={50} sx={classes.loader} />
           <Typography variant="body1">

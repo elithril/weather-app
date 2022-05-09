@@ -25,7 +25,12 @@ export default function CityFinder(props) {
         setOptions(tmp);
         setIsFetching(false);
       })
-      .catch(err => props.displayToast({message: 'Echec de la récupération des données', status: 'error'}))
+      .catch(err => {
+        props.displayToast({message: 'Echec de la récupération des données', status: 'error'})
+        props.setCurrentCity({...props.currentCity, cityName: '', error: 'Echec de la récupération des données'})
+        setIsFetching(false);
+        setCityName('');
+      })
     }
   }, [debouncedSearch]);
 
@@ -46,7 +51,6 @@ export default function CityFinder(props) {
           const newTimezone = tzlookup(lat, lng);
           props.setIsFetchingWeather(true);
           props.setCurrentCity({
-            ...props.currentCity,
             pos: [lat, lng],
             cityName: v.name.split(',')[0],
             timezone: newTimezone,
@@ -54,6 +58,7 @@ export default function CityFinder(props) {
         },
         (error) => {
           props.displayToast({message: 'Echec de la récupération des données', status: 'error'})
+          props.setCurrentCity({...props.currentCity, cityName: '', error: 'Echec de la récupération des données'})
           console.error(error);
         }
       );

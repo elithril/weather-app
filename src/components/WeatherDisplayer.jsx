@@ -224,7 +224,6 @@ const WeatherDisplayer = (props) => {
 
   return (
     <Card sx={classes.root}>
-      {/* props.setToastStatus({message: 'test', status: 'success'})} */}
       <FavoritesDisplayer
         open={openFavorite}
         onClose={() => setOpenFavorite(false)}

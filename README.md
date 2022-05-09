@@ -1,4 +1,4 @@
-# A simple app to get the weather forecast
+# A simple app to consult your city weather forecast
 ## Run the application
 ### `npm install && npm start`
 

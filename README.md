@@ -10,6 +10,7 @@ If you decide to not let the application access to it, you can still proceed but
 
 ## Fonctionalities
 
+- Display automatically your city weather forecast if you agreed on the gelocalisation authorization
 - You can search a city in the application to directly receive the weather forecast of day and also for the whole week.
 - You can set a city as favorite
 - You can manage your favorites
